@@ -10,8 +10,5 @@ public interface Dao<T, ID>{
     T update(T entity);
     void delete(T entity);
     void deleteById(ID id);
-    List<Film> findByTitle(String title);
-    List<Film> findByGenre(String genre);
-    List<Film> getAll();
 
 }
