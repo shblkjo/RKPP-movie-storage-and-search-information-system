@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+
+<VBox  xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ru.mygroup.isfilms.MainController"
+       spacing="10" prefWidth="600" prefHeight="500">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <HBox spacing="20">
+        <ImageView fx:id="posterImage" fitHeight="300" fitWidth="200" preserveRatio="true"/>
+        <VBox spacing="8">
+            <Text fx:id="titleText" text="Название фильма">
+                <font><Font size="20"/></font>
+            </Text>
+            <Text fx:id="yearText"/>
+            <Text fx:id="countryText"/>
+            <Text fx:id="studioText"/>
+            <Text fx:id="ratingText"/>
+            <Text fx:id="durationText"/>
+            <Text fx:id="ageRatingText"/>
+            <Text fx:id="typeText"/>
+        </VBox>
+    </HBox>
+
+    <Separator/>
+
+    <Text text="Описание:" font="$titleFont">
+        <font><Font size="14"/></font>
+    </Text>
+    <TextArea fx:id="descriptionArea" editable="false" wrapText="true" prefHeight="80"/>
+
+    <Text text="Жанры:" font="$titleFont">
+        <font><Font size="14"/></font>
+    </Text>
+    <FlowPane fx:id="genresFlow" hgap="5" vgap="5"/>
+
+    <Text text="Режиссеры:" font="$titleFont">
+        <font><Font size="14"/></font>
+    </Text>
+    <ListView fx:id="directorsList" prefHeight="80"/>
+
+    <Text text="Актеры:" font="$titleFont">
+        <font><Font size="14"/></font>
+    </Text>
+    <ListView fx:id="actorsList" prefHeight="100"/>
+
+    <Separator/>
+
+    <HBox spacing="10" alignment="javafx.geometry.Pos.CENTER_RIGHT">
+        <Button text="Редактировать" onAction="#onEdit"/>
+        <Button text="Удалить" onAction="#onDelete"/>
+        <Button text="Добавить в подборку" onAction="#onAddToCollection"/>
+        <Button text="Закрыть" onAction="#onClose"/>
+    </HBox>
+
+</VBox >
