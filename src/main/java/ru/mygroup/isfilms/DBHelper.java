@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBHelper {
-    private static final String URL = "jdbc:postgresql://localhost:5432/INSTITUT"; //ИЗМЕНИТЬ
+    private static final String URL = "jdbc:postgresql://localhost:5432/film_archive";
     private static final String LOGIN = "SuperUser";
     private static final String PASSWORD = "1234";
 
