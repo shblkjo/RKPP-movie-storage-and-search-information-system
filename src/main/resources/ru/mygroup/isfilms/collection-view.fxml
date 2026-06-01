@@ -10,57 +10,31 @@
 <VBox  xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="ru.mygroup.isfilms.MainController"
-       spacing="10" prefWidth="600" prefHeight="500">
+       spacing="10" prefWidth="500" prefHeight="400">
 
     <padding>
-        <Insets top="15" right="15" bottom="15" left="15"/>
+        <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
 
-    <HBox spacing="20">
-        <ImageView fx:id="posterImage" fitHeight="300" fitWidth="200" preserveRatio="true"/>
-        <VBox spacing="8">
-            <Text fx:id="titleText" text="Название фильма">
-                <font><Font size="20"/></font>
-            </Text>
-            <Text fx:id="yearText"/>
-            <Text fx:id="countryText"/>
-            <Text fx:id="studioText"/>
-            <Text fx:id="ratingText"/>
-            <Text fx:id="durationText"/>
-            <Text fx:id="ageRatingText"/>
-            <Text fx:id="typeText"/>
+    <Label text="Мои подборки" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10">
+        <TextField fx:id="collectionNameField" promptText="Название подборки" HBox.hgrow="ALWAYS"/>
+        <Button text="Создать" onAction="#onCreateCollection"/>
+    </HBox>
+
+    <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
+        <ListView fx:id="collectionsList"/>
+        <VBox spacing="10">
+            <Label text="Фильмы в подборке:"/>
+            <ListView fx:id="moviesInCollectionList" VBox.vgrow="ALWAYS"/>
+            <HBox spacing="10">
+                <Button text="Удалить фильм" onAction="#onRemoveMovie"/>
+                <Button text="Удалить подборку" onAction="#onDeleteCollection"/>
+            </HBox>
         </VBox>
-    </HBox>
+    </SplitPane>
 
-    <Separator/>
-
-    <Text text="Описание:" font="$titleFont">
-        <font><Font size="14"/></font>
-    </Text>
-    <TextArea fx:id="descriptionArea" editable="false" wrapText="true" prefHeight="80"/>
-
-    <Text text="Жанры:" font="$titleFont">
-        <font><Font size="14"/></font>
-    </Text>
-    <FlowPane fx:id="genresFlow" hgap="5" vgap="5"/>
-
-    <Text text="Режиссеры:" font="$titleFont">
-        <font><Font size="14"/></font>
-    </Text>
-    <ListView fx:id="directorsList" prefHeight="80"/>
-
-    <Text text="Актеры:" font="$titleFont">
-        <font><Font size="14"/></font>
-    </Text>
-    <ListView fx:id="actorsList" prefHeight="100"/>
-
-    <Separator/>
-
-    <HBox spacing="10" alignment="javafx.geometry.Pos.CENTER_RIGHT">
-        <Button text="Редактировать" onAction="#onEdit"/>
-        <Button text="Удалить" onAction="#onDelete"/>
-        <Button text="Добавить в подборку" onAction="#onAddToCollection"/>
-        <Button text="Закрыть" onAction="#onClose"/>
-    </HBox>
+    <Button text="Добавить фильм в подборку" onAction="#onAddMovie"/>
 
 </VBox >
