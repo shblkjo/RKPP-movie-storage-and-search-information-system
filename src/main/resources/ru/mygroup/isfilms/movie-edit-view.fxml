@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="700" prefWidth="600" spacing="10" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mygroup.isfilms.MainController">
+<VBox prefHeight="700" prefWidth="600" spacing="10" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mygroup.isfilms.controller.MovieEditController">
 
     <padding>
         <Insets bottom="15" left="15" right="15" top="15" />

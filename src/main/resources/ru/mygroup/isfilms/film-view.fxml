@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane  prefHeight="420.0" prefWidth="260.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mygroup.isfilms.MainController">
+<AnchorPane prefHeight="420.0" prefWidth="260.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mygroup.isfilms.controller.FilmCardController">
     <children>
         <ImageView fx:id="posterImage" fitHeight="260.0" fitWidth="250.0" layoutX="5.0" layoutY="5.0" preserveRatio="true" />
         <VBox layoutX="10.0" layoutY="275.0" prefWidth="240.0" spacing="6.0">

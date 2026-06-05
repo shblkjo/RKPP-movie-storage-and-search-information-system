@@ -229,5 +229,27 @@ public class MovieDAO extends AbstractDAO<Movie, Integer> {
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка добавления человека к фильму", e);
         }
+
+    }
+
+    public void clearAllGenresFromMovie(Integer movieId) {
+        String sql = "DELETE FROM cinema.movie_genres WHERE movie_id = ?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+            stmt.setInt(1, movieId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка очистки жанров", e);
+        }
+    }
+
+    public void clearAllPeopleFromMovie(Integer movieId, String roleType) {
+        String sql = "DELETE FROM cinema.movie_people WHERE movie_id = ? AND role_type = ?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+            stmt.setInt(1, movieId);
+            stmt.setString(2, roleType);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка очистки людей", e);
+        }
     }
 }

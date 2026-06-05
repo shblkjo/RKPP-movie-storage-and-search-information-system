@@ -10,4 +10,6 @@ module ru.mygroup.isfilms {
     opens ru.mygroup.isfilms.model to javafx.fxml;
     exports ru.mygroup.isfilms.dao;
     opens ru.mygroup.isfilms.dao to javafx.fxml;
+    exports ru.mygroup.isfilms.controller;
+    opens ru.mygroup.isfilms.controller to javafx.fxml;
 }

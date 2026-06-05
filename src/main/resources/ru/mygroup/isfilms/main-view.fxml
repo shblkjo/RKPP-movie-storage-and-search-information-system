@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="650.0" prefWidth="840.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mygroup.isfilms.MainController">
+<AnchorPane prefHeight="650.0" prefWidth="840.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mygroup.isfilms.controller.MainController">
    <children>
       <SplitPane dividerPositions="0.35062893081761004" prefHeight="654.0" prefWidth="838.0">
          <items>
