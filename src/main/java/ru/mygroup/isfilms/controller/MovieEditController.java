@@ -1,8 +1,10 @@
 package ru.mygroup.isfilms.controller;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import ru.mygroup.isfilms.model.*;
 import ru.mygroup.isfilms.dao.*;
@@ -16,16 +18,20 @@ public class MovieEditController {
     @FXML private TextField yearField;
     @FXML private ComboBox<String> typeCombo;
     @FXML private TextField durationField;
-    @FXML private TextField ratingField;
-    @FXML private TextField ageRatingField;
+    @FXML private Slider ratingSlider;      // ← Slider, а не TextField!
+    @FXML private Label ratingLabel;        // ← добавить эту строку
+    @FXML private ComboBox<String> ageRatingCombo;  // ← ComboBox, а не TextField!
     @FXML private ComboBox<Country> countryCombo;
     @FXML private ComboBox<Studio> studioCombo;
     @FXML private ListView<Genre> genresList;
     @FXML private ListView<Person> directorsList;
     @FXML private ListView<Person> actorsList;
     @FXML private TextArea descriptionArea;
+    @FXML private ImageView posterPreview;  // ← добавить для постера
 
     private Movie movie;
+    private byte[] posterBytes;
+
     private final MovieService movieService = new MovieService();
     private final GenreDAO genreDAO = new GenreDAO();
     private final CountryDAO countryDAO = new CountryDAO();
@@ -34,10 +40,16 @@ public class MovieEditController {
 
     @FXML
     public void initialize() {
+        // Настройка слайдера рейтинга
+        ratingSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            ratingLabel.setText(String.format("Рейтинг: %.1f", newVal.doubleValue()));
+        });
+
         // Заполняем выпадающие списки
         typeCombo.setItems(FXCollections.observableArrayList("movie", "series"));
         countryCombo.setItems(FXCollections.observableArrayList(countryDAO.findAll()));
         studioCombo.setItems(FXCollections.observableArrayList(studioDAO.findAll()));
+        ageRatingCombo.setItems(FXCollections.observableArrayList("0+", "6+", "12+", "16+", "18+"));
 
         // Заполняем списки с возможностью множественного выбора
         genresList.setItems(FXCollections.observableArrayList(genreDAO.findAll()));
@@ -57,8 +69,14 @@ public class MovieEditController {
             yearField.setText(String.valueOf(movie.getReleaseYear()));
             typeCombo.setValue(movie.getType());
             durationField.setText(movie.getDuration() != null ? String.valueOf(movie.getDuration()) : "");
-            ratingField.setText(movie.getRating() != null ? String.valueOf(movie.getRating()) : "");
-            ageRatingField.setText(movie.getAgeRating());
+
+            // Slider
+            double rating = movie.getRating() != null ? movie.getRating() : 0.0;
+            ratingSlider.setValue(rating);
+            ratingLabel.setText(String.format("Рейтинг: %.1f", rating));
+
+            // ComboBox
+            ageRatingCombo.setValue(movie.getAgeRating());
             descriptionArea.setText(movie.getDescription());
             countryCombo.setValue(movie.getCountry());
             studioCombo.setValue(movie.getStudio());
@@ -82,6 +100,13 @@ public class MovieEditController {
                 for (Person actor : movie.getActors()) {
                     actorsList.getSelectionModel().select(actor);
                 }
+            }
+
+            // Постер
+            if (movie.getPosterImage() != null && movie.getPosterImage().length > 0) {
+                posterBytes = movie.getPosterImage();
+                javafx.scene.image.Image image = new javafx.scene.image.Image(new java.io.ByteArrayInputStream(posterBytes));
+                posterPreview.setImage(image);
             }
         }
     }
@@ -109,11 +134,13 @@ public class MovieEditController {
                 showError("Выберите тип фильма");
                 return;
             }
+
             // Создаем фильм
             Movie newMovie = new Movie();
             newMovie.setTitle(titleField.getText().trim());
             newMovie.setReleaseYear(year);
             newMovie.setType(typeCombo.getValue());
+
             // Необязательные поля
             if (!durationField.getText().trim().isEmpty()) {
                 try {
@@ -124,27 +151,17 @@ public class MovieEditController {
                 }
             }
 
-            if (!ratingField.getText().trim().isEmpty()) {
-                try {
-                    double rating = Double.parseDouble(ratingField.getText());
-                    if (rating < 0 || rating > 10) {
-                        showError("Рейтинг должен быть от 0 до 10");
-                        return;
-                    }
-                    newMovie.setRating(rating);
-                } catch (NumberFormatException e) {
-                    showError("Рейтинг должен быть числом");
-                    return;
-                }
-            }
+            // Рейтинг из Slider
+            newMovie.setRating(ratingSlider.getValue());
 
-            newMovie.setAgeRating(ageRatingField.getText());
+            newMovie.setAgeRating(ageRatingCombo.getValue());
             newMovie.setDescription(descriptionArea.getText());
             newMovie.setCountry(countryCombo.getValue());
             newMovie.setStudio(studioCombo.getValue());
             newMovie.setGenres(genresList.getSelectionModel().getSelectedItems());
             newMovie.setDirectors(directorsList.getSelectionModel().getSelectedItems());
             newMovie.setActors(actorsList.getSelectionModel().getSelectedItems());
+            newMovie.setPosterImage(posterBytes);
 
             if (movie == null) {
                 // Создание нового фильма
@@ -172,6 +189,32 @@ public class MovieEditController {
         Stage stage = (Stage) titleField.getScene().getWindow();
         stage.close();
     }
+
+    @FXML
+    private void onChooseImage(ActionEvent actionEvent) {
+        javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+        fileChooser.setTitle("Выберите постер");
+        fileChooser.getExtensionFilters().addAll(
+                new javafx.stage.FileChooser.ExtensionFilter("Изображения", "*.png", "*.jpg", "*.jpeg")
+        );
+        java.io.File file = fileChooser.showOpenDialog(posterPreview.getScene().getWindow());
+        if (file != null) {
+            try {
+                posterBytes = java.nio.file.Files.readAllBytes(file.toPath());
+                javafx.scene.image.Image image = new javafx.scene.image.Image(new java.io.ByteArrayInputStream(posterBytes));
+                posterPreview.setImage(image);
+            } catch (java.io.IOException e) {
+                showError("Не удалось загрузить изображение");
+            }
+        }
+    }
+
+    @FXML
+    private void onClearImage(ActionEvent actionEvent) {
+        posterBytes = null;
+        posterPreview.setImage(null);
+    }
+
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Ошибка");
@@ -179,6 +222,7 @@ public class MovieEditController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     private void showInfo(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Информация");
