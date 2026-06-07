@@ -146,4 +146,9 @@ public class Movie {
     public void setDirectors(List<Person> directors) {
         this.directors = directors;
     }
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }

@@ -107,4 +107,12 @@ public class Person {
         this.countries = countries;
     }
 
+    public String getFullName() {
+        return lastName + " " + firstName + (middleName != null ? " " + middleName : "");
+    }
+
+    @Override
+    public String toString() {
+        return getFullName();
+    }
 }
