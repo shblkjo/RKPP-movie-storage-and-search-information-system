@@ -3,6 +3,7 @@ package ru.mygroup.isfilms.dao;
 import ru.mygroup.isfilms.model.Collection;
 import ru.mygroup.isfilms.model.Movie;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class CollectionDAO extends AbstractDAO<Collection, Integer> {
@@ -30,6 +31,8 @@ public class CollectionDAO extends AbstractDAO<Collection, Integer> {
         Timestamp createdAt = rs.getTimestamp("created_at");
         if (createdAt != null) {
             collection.setCreatedAt(createdAt.toLocalDateTime());
+        } else {
+            collection.setCreatedAt(LocalDateTime.now());
         }
         return collection;
     }
@@ -43,7 +46,12 @@ public class CollectionDAO extends AbstractDAO<Collection, Integer> {
         stmt.setString(index++, collection.getTitle());
         stmt.setString(index++, collection.getDescription());
         stmt.setBoolean(index++, collection.isPublic());
-        stmt.setTimestamp(index++, Timestamp.valueOf(collection.getCreatedAt()));
+        LocalDateTime createdAt = collection.getCreatedAt();
+        if (createdAt != null) {
+            stmt.setTimestamp(index, Timestamp.valueOf(createdAt));
+        } else {
+            stmt.setTimestamp(index, Timestamp.valueOf(LocalDateTime.now()));
+        }
     }
 
     @Override
