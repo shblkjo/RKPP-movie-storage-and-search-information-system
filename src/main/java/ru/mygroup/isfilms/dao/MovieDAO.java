@@ -273,4 +273,75 @@ public class MovieDAO extends AbstractDAO<Movie, Integer> {
             throw new RuntimeException("Ошибка обновления фильма: " + e.getMessage(), e);
         }
     }
+
+    public List<Movie> searchByFilter(FilterDTO filter) {
+        List<Movie> movies = new ArrayList<>();
+        boolean hasGenre = filter.getGenreId() != null;
+
+        StringBuilder sql = new StringBuilder();
+
+        if (hasGenre) {
+            sql.append("SELECT m.* FROM cinema.movies m ");
+            sql.append("JOIN cinema.movie_genres mg ON m.id = mg.movie_id ");
+            sql.append("WHERE mg.genre_id = ").append(filter.getGenreId());
+        } else {
+            sql.append("SELECT * FROM cinema.movies WHERE 1=1");
+        }
+        if (filter.getTitle() != null && !filter.getTitle().trim().isEmpty()) {
+            if (hasGenre) {
+                sql.append(" AND LOWER(m.title) LIKE LOWER('%").append(filter.getTitle()).append("%')");
+            } else {
+                sql.append(" AND LOWER(title) LIKE LOWER('%").append(filter.getTitle()).append("%')");
+            }
+        }
+        if (filter.getYearFrom() != null) {
+            if (hasGenre) {
+                sql.append(" AND m.release_year >= ").append(filter.getYearFrom());
+            } else {
+                sql.append(" AND release_year >= ").append(filter.getYearFrom());
+            }
+        }
+        if (filter.getYearTo() != null) {
+            if (hasGenre) {
+                sql.append(" AND m.release_year <= ").append(filter.getYearTo());
+            } else {
+                sql.append(" AND release_year <= ").append(filter.getYearTo());
+            }
+        }
+        if (filter.getCountryId() != null) {
+            if (hasGenre) {
+                sql.append(" AND m.country_id = ").append(filter.getCountryId());
+            } else {
+                sql.append(" AND country_id = ").append(filter.getCountryId());
+            }
+        }
+        if (filter.getRatingFrom() != null) {
+            if (hasGenre) {
+                sql.append(" AND m.rating >= ").append(filter.getRatingFrom());
+            } else {
+                sql.append(" AND rating >= ").append(filter.getRatingFrom());
+            }
+        }
+        if (filter.getRatingTo() != null) {
+            if (hasGenre) {
+                sql.append(" AND m.rating <= ").append(filter.getRatingTo());
+            } else {
+                sql.append(" AND rating <= ").append(filter.getRatingTo());
+            }
+        }
+        if (hasGenre) {
+            sql.append(" ORDER BY m.title");
+        } else {
+            sql.append(" ORDER BY title");
+        }
+        try (Statement stmt = getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(sql.toString())) {
+            while (rs.next()) {
+                movies.add(mapResultSetToEntity(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка поиска по фильтрам: " + e.getMessage(), e);
+        }
+        return movies;
+    }
 }

@@ -1,5 +1,6 @@
 package ru.mygroup.isfilms.service;
 
+import ru.mygroup.isfilms.model.FilterDTO;
 import ru.mygroup.isfilms.model.Movie;
 import ru.mygroup.isfilms.model.Person;
 import ru.mygroup.isfilms.model.Genre;
@@ -122,49 +123,8 @@ public class MovieService {
             throw new RuntimeException("Фильм с ID " + id + " не найден");
         }
     }
-    //TODO  переделать с конкатенацией
-    public List<Movie> searchMovies(String title, Integer year, Integer genreId, Integer countryId) {
-        if ((title == null || title.trim().isEmpty()) && year == null && genreId == null && countryId == null) {
-            return getAllMovies();
-        }
-        if (title != null && !title.trim().isEmpty()) {
-            return movieDAO.findByTitle(title);
-        }
-        if (year != null) {
-            return movieDAO.findByYear(year);
-        }
-        if (genreId != null) {
-            return movieDAO.findByGenre(genreId);
-        }
-        if (countryId != null) {
-            return movieDAO.findByCountry(countryId);
-        }
-        return getAllMovies();
-    }
-
-    public List<Movie> searchByTitle(String title) {
-        if (title == null || title.trim().isEmpty()) {
-            return getAllMovies();
-        }
-        return movieDAO.findByTitle(title);
-    }
-
-    public List<Movie> searchByYear(Integer year) {
-        if (year == null) {
-            return getAllMovies();
-        }
-        return movieDAO.findByYear(year);
-    }
-
-    public List<Movie> searchByGenre(Integer genreId) {
-        if (genreId == null) {
-            return getAllMovies();
-        }
-        return movieDAO.findByGenre(genreId);
-    }
 
     // ОТЧЕТЫ
-
     public double getAverageRating() {
         List<Movie> movies = movieDAO.findAll();
         if (movies.isEmpty()) {
@@ -234,5 +194,19 @@ public class MovieService {
         if (movie.getRating() != null && (movie.getRating() < 0 || movie.getRating() > 10)) {
             throw new IllegalArgumentException("Рейтинг должен быть от 0 до 10");
         }
+    }
+
+    public List<Movie> searchByFilter(FilterDTO filter) {
+        if (filter == null || filter.isEmpty()) {
+            return getAllMovies();
+        }
+        return movieDAO.searchByFilter(filter);
+    }
+
+    public List<Movie> searchByTitle(String title) {
+        if (title == null || title.trim().isEmpty()) {
+            return getAllMovies();
+        }
+        return movieDAO.findByTitle(title);
     }
 }

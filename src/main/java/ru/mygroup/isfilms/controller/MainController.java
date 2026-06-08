@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.mygroup.isfilms.model.FilterDTO;
 import ru.mygroup.isfilms.model.Movie;
 import ru.mygroup.isfilms.service.MovieService;
 
@@ -64,7 +65,7 @@ public class MainController {
             loadAllMovies();
         } else {
 
-            List<Movie> found = movieService.searchMovies(query, null, null, null);
+            List<Movie> found = movieService.searchByTitle(query);
             displayMovies(found);
         }
     }
@@ -79,9 +80,40 @@ public class MainController {
         openCollectionWindow();
     }
 
+    private FilterDTO currentFilter = null;
     @FXML
     private void onFilters() {
-        showFilterDialog();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ru/mygroup/isfilms/filter-view.fxml"));
+            Parent root = loader.load();
+
+            FilterController controller = loader.getController();
+            controller.setFilter(currentFilter);
+            controller.setOnSearchCallback(() -> {
+                currentFilter = controller.getFilter();
+                applyFilters();
+            });
+
+            Stage stage = new Stage();
+            stage.setTitle("Фильтры");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(filmContainer.getScene().getWindow());
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Не удалось открыть окно фильтров");
+        }
+    }
+
+    private void applyFilters() {
+        if (currentFilter != null && !currentFilter.isEmpty()) {
+            List<Movie> filtered = movieService.searchByFilter(currentFilter);
+            displayMovies(filtered);
+        } else {
+            loadAllMovies();
+        }
     }
 
     @FXML
@@ -106,13 +138,7 @@ public class MainController {
         }
     }
 
-    private void showFilterDialog() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Фильтры");
-        alert.setHeaderText("Фильтрация");
-        alert.setContentText("Введите текст для поиска в поле выше");
-        alert.showAndWait();
-    }
+
 
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
