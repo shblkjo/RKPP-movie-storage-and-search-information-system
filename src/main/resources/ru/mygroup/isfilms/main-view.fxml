@@ -44,6 +44,7 @@
                         <Button layoutX="6.0" layoutY="70.0" mnemonicParsing="false" onAction="#onMyCollections" text="Мои подборки" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="70.0" />
                         <Button layoutX="16.0" layoutY="80.0" mnemonicParsing="false" onAction="#onFilters" text="Фильтры" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="100.0" />
                         <Button layoutY="85.0" mnemonicParsing="false" onAction="#onExit" text="Выход" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" />
+                        <Button layoutX="3.0" layoutY="131.0" onAction="#onAddMovie" text="+ Добавить фильм" />
                      </children>
                 </AnchorPane>
               </children>
@@ -54,7 +55,7 @@
                     <content>
                       <AnchorPane prefHeight="650.0" prefWidth="540.0">
                            <children>
-                               <FlowPane fx:id="filmContainer" hgap="10.0" prefHeight="650.0" vgap="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                               <FlowPane fx:id="filmContainer" hgap="10.0" prefHeight="650.0" prefWidth="526.0" prefWrapLength="500.0" vgap="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                     </content>

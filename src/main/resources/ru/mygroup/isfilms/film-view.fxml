@@ -11,14 +11,14 @@
     <children>
         <ImageView fx:id="posterImage" fitHeight="260.0" fitWidth="250.0" layoutX="5.0" layoutY="5.0" preserveRatio="true" />
         <VBox layoutX="10.0" layoutY="275.0" prefWidth="240.0" spacing="6.0">
-            <Text fx:id="titleText" text="Название фильма">
+            <Text fx:id="titleText" text="Название фильма" wrappingWidth="230.0">
                 <font>
                     <Font size="22.0" />
                 </font>
             </Text>
-            <Text fx:id="genreText" text="Жанр" />
-            <Text fx:id="yearText" text="Год" />
-            <Text fx:id="ratingText" text="Рейтинг" />
+            <Text fx:id="genreText" text="Жанр" wrappingWidth="230.0" />
+            <Text fx:id="yearText" text="Год" wrappingWidth="230.0" />
+            <Text fx:id="ratingText" text="Рейтинг" wrappingWidth="230.0" />
         </VBox>
         <Button layoutX="10.0" layoutY="380.0" mnemonicParsing="false" onAction="#onMoreDetails" prefWidth="240.0" text="Подробнее" />
 
