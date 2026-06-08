@@ -1,5 +1,6 @@
 package ru.mygroup.isfilms.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -119,5 +120,24 @@ public class MainController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void onAddMovie(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ru/mygroup/isfilms/movie-edit-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Добавление фильма");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(filmContainer.getScene().getWindow());
+            stage.showAndWait();
+
+            loadAllMovies(); // обновляем список
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Не удалось открыть окно добавления");
+        }
     }
 }
