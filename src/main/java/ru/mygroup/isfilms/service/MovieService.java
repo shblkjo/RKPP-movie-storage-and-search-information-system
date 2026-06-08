@@ -234,13 +234,5 @@ public class MovieService {
         if (movie.getRating() != null && (movie.getRating() < 0 || movie.getRating() > 10)) {
             throw new IllegalArgumentException("Рейтинг должен быть от 0 до 10");
         }
-
-        if (movie.getType() == null || movie.getType().trim().isEmpty()) {
-            throw new IllegalArgumentException("Тип фильма обязателен");
-        }
-
-        if (!movie.getType().equals("movie") && !movie.getType().equals("series")) {
-            throw new IllegalArgumentException("Тип должен быть 'movie' или 'series'");
-        }
     }
 }

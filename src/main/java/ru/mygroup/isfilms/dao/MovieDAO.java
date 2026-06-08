@@ -25,7 +25,6 @@ public class MovieDAO extends AbstractDAO<Movie, Integer> {
         movie.setReleaseYear(rs.getInt("release_year"));
         movie.setDescription(rs.getString("description"));
         movie.setDuration(rs.getInt("duration"));
-        movie.setType(rs.getString("type"));
         movie.setRating(rs.getDouble("rating"));
         movie.setAgeRating(rs.getString("age_rating"));
         movie.setPosterImage(rs.getBytes("poster_image"));
@@ -42,7 +41,6 @@ public class MovieDAO extends AbstractDAO<Movie, Integer> {
         stmt.setInt(index++, movie.getReleaseYear());
         stmt.setString(index++, movie.getDescription());
         stmt.setObject(index++, movie.getDuration(), Types.INTEGER);
-        stmt.setString(index++, movie.getType());
         stmt.setObject(index++, movie.getCountry() != null ? movie.getCountry().getId() : null, Types.INTEGER);
         stmt.setObject(index++, movie.getStudio() != null ? movie.getStudio().getId() : null, Types.INTEGER);
         stmt.setDouble(index++, movie.getRating() != null ? movie.getRating() : 0.0);
@@ -52,7 +50,7 @@ public class MovieDAO extends AbstractDAO<Movie, Integer> {
 
     @Override
     protected String getInsertSql() {
-        return "INSERT INTO cinema.movies (title, release_year, description, duration, type, " +
+        return "INSERT INTO cinema.movies (title, release_year, description, duration, " +
                 "country_id, studio_id, rating, age_rating, poster_image) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     }
@@ -60,7 +58,7 @@ public class MovieDAO extends AbstractDAO<Movie, Integer> {
     @Override
     protected String getUpdateSql() {
         return "UPDATE cinema.movies SET title=?, release_year=?, description=?, duration=?, " +
-                "type=?, country_id=?, studio_id=?, rating=?, age_rating=?, poster_image=? " +
+                "country_id=?, studio_id=?, rating=?, age_rating=?, poster_image=? " +
                 "WHERE id=?";
     }
 

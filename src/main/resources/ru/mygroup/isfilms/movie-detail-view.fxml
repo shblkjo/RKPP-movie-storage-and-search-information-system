@@ -29,7 +29,6 @@
             <Text fx:id="ratingText" />
             <Text fx:id="durationText" />
             <Text fx:id="ageRatingText" />
-            <Text fx:id="typeText" />
         </VBox>
     </HBox>
 

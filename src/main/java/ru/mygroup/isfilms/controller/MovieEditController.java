@@ -16,18 +16,17 @@ public class MovieEditController {
 
     @FXML private TextField titleField;
     @FXML private TextField yearField;
-    @FXML private ComboBox<String> typeCombo;
     @FXML private TextField durationField;
-    @FXML private Slider ratingSlider;      // ← Slider, а не TextField!
-    @FXML private Label ratingLabel;        // ← добавить эту строку
-    @FXML private ComboBox<String> ageRatingCombo;  // ← ComboBox, а не TextField!
+    @FXML private Slider ratingSlider;
+    @FXML private Label ratingLabel;
+    @FXML private ComboBox<String> ageRatingCombo;
     @FXML private ComboBox<Country> countryCombo;
     @FXML private ComboBox<Studio> studioCombo;
     @FXML private ListView<Genre> genresList;
     @FXML private ListView<Person> directorsList;
     @FXML private ListView<Person> actorsList;
     @FXML private TextArea descriptionArea;
-    @FXML private ImageView posterPreview;  // ← добавить для постера
+    @FXML private ImageView posterPreview;
 
     private Movie movie;
     private byte[] posterBytes;
@@ -46,7 +45,6 @@ public class MovieEditController {
         });
 
         // Заполняем выпадающие списки
-        typeCombo.setItems(FXCollections.observableArrayList("movie", "series"));
         countryCombo.setItems(FXCollections.observableArrayList(countryDAO.findAll()));
         studioCombo.setItems(FXCollections.observableArrayList(studioDAO.findAll()));
         ageRatingCombo.setItems(FXCollections.observableArrayList("0+", "6+", "12+", "16+", "18+"));
@@ -67,7 +65,6 @@ public class MovieEditController {
         if (movie != null) {
             titleField.setText(movie.getTitle());
             yearField.setText(String.valueOf(movie.getReleaseYear()));
-            typeCombo.setValue(movie.getType());
             durationField.setText(movie.getDuration() != null ? String.valueOf(movie.getDuration()) : "");
 
             // Slider
@@ -130,16 +127,11 @@ public class MovieEditController {
                 showError("Год должен быть числом");
                 return;
             }
-            if (typeCombo.getValue() == null) {
-                showError("Выберите тип фильма");
-                return;
-            }
 
             // Создаем фильм
             Movie newMovie = new Movie();
             newMovie.setTitle(titleField.getText().trim());
             newMovie.setReleaseYear(year);
-            newMovie.setType(typeCombo.getValue());
 
             // Необязательные поля
             if (!durationField.getText().trim().isEmpty()) {

@@ -34,15 +34,6 @@
             <TextField fx:id="titleField" promptText="Введите название" />
             <Label text="Год выпуска:*" />
             <TextField fx:id="yearField" promptText="Например: 1994" />
-            <Label text="Тип:*" />
-            <ComboBox fx:id="typeCombo" promptText="Выберите тип">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="movie" />
-                        <String fx:value="series" />
-                    </FXCollections>
-                </items>
-            </ComboBox>
             <Label text="Длительность (минуты)" />
             <TextField fx:id="durationField" promptText="Например: 120" />
             <Label text="Рейтинг (0.0 - 10.0)" />

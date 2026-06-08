@@ -74,7 +74,6 @@ public class MovieDetailController {
         }
 
         ageRatingText.setText("Возрастной рейтинг: " + (movie.getAgeRating() != null ? movie.getAgeRating() : "не указан"));
-        typeText.setText("Тип: " + (movie.getType() != null ? movie.getType() : "не указан"));
         descriptionArea.setText(movie.getDescription() != null ? movie.getDescription() : "");
 
         // Постер

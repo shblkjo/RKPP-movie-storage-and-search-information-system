@@ -10,9 +10,8 @@ public class Movie {
     private Integer releaseYear;
     private String description;
     private Integer duration;
-    private String type;          // "movie" или "series"
     private Double rating;
-    private String ageRating;     // "PG-13", "R", etc.
+    private String ageRating;
     private byte[] posterImage;
 
     // Связанные объекты
@@ -23,12 +22,11 @@ public class Movie {
     private List<Person> directors = new ArrayList<>();
 
     public Movie() {}
-    public Movie(String title, Integer releaseYear, String description, Integer duration, String type, Double rating, String ageRating, byte[] posterImage) {
+    public Movie(String title, Integer releaseYear, String description, Integer duration, Double rating, String ageRating, byte[] posterImage) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.description = description;
         this.duration = duration;
-        this.type = type;
         this.rating = rating;
         this.ageRating = ageRating;
         this.posterImage = posterImage;
@@ -73,14 +71,6 @@ public class Movie {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Double getRating() {
