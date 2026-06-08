@@ -52,7 +52,7 @@ public class MovieDAO extends AbstractDAO<Movie, Integer> {
     protected String getInsertSql() {
         return "INSERT INTO cinema.movies (title, release_year, description, duration, " +
                 "country_id, studio_id, rating, age_rating, poster_image) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     }
 
     @Override
@@ -248,6 +248,29 @@ public class MovieDAO extends AbstractDAO<Movie, Integer> {
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка очистки людей", e);
+        }
+    }
+
+    @Override
+    public boolean update(Movie movie) {
+        String sql = getUpdateSql();
+
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+            int index = 1;
+            stmt.setString(index++, movie.getTitle());
+            stmt.setInt(index++, movie.getReleaseYear());
+            stmt.setString(index++, movie.getDescription());
+            stmt.setObject(index++, movie.getDuration(), Types.INTEGER);
+            stmt.setObject(index++, movie.getCountry() != null ? movie.getCountry().getId() : null, Types.INTEGER);
+            stmt.setObject(index++, movie.getStudio() != null ? movie.getStudio().getId() : null, Types.INTEGER);
+            stmt.setDouble(index++, movie.getRating() != null ? movie.getRating() : 0.0);
+            stmt.setString(index++, movie.getAgeRating());
+            stmt.setBytes(index++, movie.getPosterImage());
+            stmt.setInt(index, movie.getId());
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка обновления фильма: " + e.getMessage(), e);
         }
     }
 }
