@@ -23,8 +23,7 @@
                   <menus>
                     <Menu mnemonicParsing="false" text="Меню">
                       <items>
-                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-                      </items>
+                          <MenuItem mnemonicParsing="false" onAction="#onReports" text="Отчеты" />                      </items>
                     </Menu>
                   </menus>
                 </MenuBar>

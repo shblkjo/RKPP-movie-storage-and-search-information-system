@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.mygroup.isfilms.controller.ReportController"
+      spacing="10" prefWidth="600" prefHeight="500">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+    <Label text="Сводные отчеты" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <Separator/>
+    <TabPane VBox.vgrow="ALWAYS">
+        <Tab text="Общая статистика" closable="false">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Основные показатели:" style="-fx-font-weight: bold;"/>
+                <Label fx:id="totalMoviesLabel" text="Всего фильмов: "/>
+                <Label fx:id="averageRatingLabel" text="Средний рейтинг: "/>
+                <Separator/>
+                <Label text="Топ 10 лучших фильмов:" style="-fx-font-weight: bold;"/>
+                <ListView fx:id="topMoviesList" prefHeight="200"/>
+            </VBox>
+        </Tab>
+        <Tab text="По годам" closable="false">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Введите год:"/>
+                <HBox spacing="10">
+                    <TextField fx:id="yearField" promptText="Например: 1994" HBox.hgrow="ALWAYS"/>
+                    <Button text="Показать" onAction="#onShowByYear"/>
+                </HBox>
+                <Label fx:id="yearResultLabel" text="Количество фильмов: "/>
+            </VBox>
+        </Tab>
+        <Tab text="По странам" closable="false">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Выберите страну:"/>
+                <ComboBox fx:id="countryCombo" promptText="Выберите страну" HBox.hgrow="ALWAYS"/>
+                <Button text="Показать" onAction="#onShowByCountry"/>
+                <Label fx:id="countryResultLabel" text="Количество фильмов: "/>
+            </VBox>
+        </Tab>
+    </TabPane>
+    <Separator/>
+    <HBox alignment="CENTER_RIGHT">
+        <Button text="Закрыть" onAction="#onClose"/>
+    </HBox>
+</VBox>

@@ -138,8 +138,6 @@ public class MainController {
         }
     }
 
-
-
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Ошибка");
@@ -164,6 +162,24 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
             showError("Не удалось открыть окно добавления");
+        }
+    }
+
+    @FXML
+    public void onReports() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ru/mygroup/isfilms/report-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Сводные отчеты");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(filmContainer.getScene().getWindow());
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Не удалось открыть окно отчетов");
         }
     }
 }
